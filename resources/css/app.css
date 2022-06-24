@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background: url('/images/background.png');
+}
+
+body > section {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.bg-default {
+    background: #23272A;
+}
+
+.bg-discord {
+    background: #7289DA;
+}

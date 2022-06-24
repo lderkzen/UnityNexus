@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DiscordAuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'show'])->name('home');
+Route::get('/login', [DiscordAuthController::class, 'show'])->name('auth.login');
+Route::get('/auth/discord/redirect', [DiscordAuthController::class, 'redirectToDiscordProvider'])->name('auth.discord.redirect');
+Route::get('/auth/discord/callback', [DiscordAuthController::class, 'handleDiscordProviderCallback'])->name('auth.discord.callback');
