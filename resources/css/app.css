@@ -7,7 +7,7 @@ body {
 }
 
 body > section {
-    background-color: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.75);
 }
 
 .bg-default {
@@ -16,4 +16,8 @@ body > section {
 
 .bg-discord {
     background: #7289DA;
+}
+
+.bg-navbar {
+    background: #212325;
 }

@@ -8,8 +8,8 @@
         @inertiaHead
     </head>
     <body class="bg-fixed bg-cover bg-no-repeat bg-center text-white">
-        <section class="p-8 h-screen">
-            <div id="app" class="min-h-full flex items-center justify-around" data-page="{{ json_encode($page) }}"></div>
+        <section class="h-screen">
+            <div id="app" class="min-h-full" data-page="{{ json_encode($page) }}"></div>
         </section>
     </body>
 </html>

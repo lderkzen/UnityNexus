@@ -1,17 +1,15 @@
 <template>
-    <h1 class="text-4xl">App</h1>
-
-    <Nav></Nav>
+    <Layout>
+        <div>
+            <h1 class="text-4xl">App</h1>
+        </div>
+    </Layout>
 </template>
 
 <script>
-import Nav from "../Shared/Nav";
+import Layout from "../Shared/Layout";
 
 export default {
-    components: { Nav }
+    components: { Layout }
 }
 </script>
-
-<style scoped>
-
-</style>
