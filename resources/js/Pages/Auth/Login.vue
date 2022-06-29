@@ -1,4 +1,5 @@
 <template>
+    <Head title="Login" />
     <div class="min-h-screen flex justify-around items-center">
         <div class="flex flex-col sm:flex-row items-center">
             <img src="/images/hou_logo_small.png" alt="HoU Logo" />
@@ -10,9 +11,7 @@
 </template>
 
 <script>
-import Nav from "../../Shared/Nav/Nav"
-
 export default {
-    components: { Nav }
+    hasLayout: true
 }
 </script>

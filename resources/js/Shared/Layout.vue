@@ -1,4 +1,5 @@
 <template>
+    <Head title="UnityNexus" />
     <Nav />
     <div class="px-16 pt-14 pb-8">
         <div class="p-2 bg-default rounded-md">

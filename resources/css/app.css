@@ -14,6 +14,10 @@ body > section {
     background: #23272A;
 }
 
+.border-default-accent {
+    border-color: #1e2022;
+}
+
 .bg-discord {
     background: #7289DA;
 }
