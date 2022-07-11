@@ -54,9 +54,17 @@ class CategoryController extends Controller
         //
     }
 
-    public function edit(Category $category)
-    {
-        //
+    // TODO: Inject category
+    public function edit() {
+        // TODO: Return application attached to category from DB
+
+        return Inertia::render('Categories/Edit', [
+            'id' => 1,
+            'name' => 'Social',
+            'member_count' => 100,
+            'application_id' => '',
+            'status' => 'OPEN',
+        ]);
     }
 
     public function update(CategoryRequest $request, Category $category)
