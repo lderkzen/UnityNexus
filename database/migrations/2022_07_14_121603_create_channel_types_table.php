@@ -8,14 +8,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('application_category', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('channel_types', function (Blueprint $table) {
+            $table->unsignedTinyInteger('id')->primary();
+            $table->string('name', 255);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('application_category');
+        Schema::dropIfExists('channel_types');
     }
 };

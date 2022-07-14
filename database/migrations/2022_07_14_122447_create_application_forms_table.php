@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,14 +9,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('submitted_application_user', function (Blueprint $table) {
+        Schema::create('application_forms', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->timestamp('created_at')->default(Carbon::now());
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('submitted_application_user');
+        Schema::dropIfExists('application_forms');
     }
 };

@@ -23,7 +23,7 @@ class DiscordAuthController extends Controller
     public function handleDiscordProviderCallback()
     {
         $user = Socialite::driver('discord')
-            ->scopes(['information'])
+            ->scopes(['identify'])
             ->user();
 
         if (!$user->user->verified)

@@ -8,17 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('channels', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary();
-            $table->string('username', 255);
-            $table->unsignedInteger('discriminator');
-            $table->string('avatar', 255);
-            $table->softDeletes();
+            $table->unsignedTinyInteger('type_id');
+            $table->foreign('type_id')->references('id')->on('channel_types');
+            $table->string('name', 255);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('channels');
     }
 };

@@ -8,14 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('submitted_applications', function (Blueprint $table) {
+        Schema::create('supergroups', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('name', 255);
+            $table->softDeletes();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('submitted_applications');
+        Schema::dropIfExists('supergroups');
     }
 };

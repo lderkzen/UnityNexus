@@ -8,14 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('applications', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('roles', function (Blueprint $table) {
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('name', 255);
+            $table->smallInteger('position');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('applications');
+        Schema::dropIfExists('roles');
     }
 };
