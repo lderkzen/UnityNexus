@@ -19,6 +19,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | UnityNexus Keys
+    |--------------------------------------------------------------------------
+    */
+
+    'discord_client_id' => env('DISCORD_CLIENT_ID'),
+    'discord_client_secret' => env('DISCORD_CLIENT_SECRET'),
+    'discord_bot_token' => env('DISCORD_BOT_TOKEN'),
+    'discord_server_id' => env('DISCORD_SERVER_ID'),
+    'discord_superadmin_role' => env('DISCORD_SUPERADMIN_ROLE'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

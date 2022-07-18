@@ -2,11 +2,11 @@
 
 /***/ "./resources/js/Pages/Categories/Index.vue~":
 /*!**************************************************!*\
-  !*** ./resources/js/Pages/Categories/Index.vue~ ***!
+  !*** ./resources/js/Pages/Groups/Index.vue~ ***!
   \**************************************************/
 /***/ (() => {
 
-throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\User Libraries\\Documents\\Hand of Unity\\UnityNexus\\resources\\js\\Pages\\Categories\\Index.vue~'");
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\User Libraries\\Documents\\Hand of Unity\\UnityNexus\\resources\\js\\Pages\\Groups\\Index.vue~'");
 
 /***/ })
 

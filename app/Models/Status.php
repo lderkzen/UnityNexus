@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Channel extends Model
+class Status extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['type_id', 'name', 'parent_id'];
+    protected $primaryKey = 'status';
+    protected $fillable = ['status'];
 }

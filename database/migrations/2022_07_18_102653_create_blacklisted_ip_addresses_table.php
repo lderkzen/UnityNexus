@@ -9,14 +9,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('application_forms', function (Blueprint $table) {
-            $table->id();
-            $table->timestamp('created_at')->default(Carbon::now());
+        Schema::create('blacklisted_ip_addresses', function (Blueprint $table) {
+            $table->ipAddress()->primary();
+            $table->timestamp('blacklisted_at')->default(Carbon::now());
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('application_forms');
+        Schema::dropIfExists('blacklisted_ip_addresses');
     }
 };

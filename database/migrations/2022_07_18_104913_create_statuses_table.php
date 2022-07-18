@@ -8,14 +8,13 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('channel_types', function (Blueprint $table) {
-            $table->unsignedTinyInteger('id')->primary();
-            $table->string('name', 255);
+        Schema::create('statuses', function (Blueprint $table) {
+            $table->string('status', 255)->primary();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('channel_types');
+        Schema::dropIfExists('statuses');
     }
 };

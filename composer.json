@@ -9,7 +9,6 @@
         "guzzlehttp/guzzle": "^7.4",
         "inertiajs/inertia-laravel": "^0.6.2",
         "laravel/framework": "^9.11",
-        "laravel/sanctum": "^2.14.1",
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "martinbean/socialite-discord-provider": "1.2"

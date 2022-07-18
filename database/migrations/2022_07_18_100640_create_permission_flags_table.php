@@ -8,15 +8,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
-            $table->string('name', 255);
-            $table->smallInteger('position');
+        Schema::create('permission_flags', function (Blueprint $table) {
+            $table->id();
+            $table->string('flag', 255);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('permission_flags');
     }
 };

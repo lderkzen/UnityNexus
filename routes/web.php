@@ -3,7 +3,7 @@
 use App\Http\Controllers\DiscordAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ApplicationController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +25,17 @@ Route::get('/auth/discord/callback', [DiscordAuthController::class, 'handleDisco
 
 // TODO: Add auth middleware.
 Route::get('/members', [UserController::class, 'index'])->name('members.index');
-Route::get('/members/{id}', [UserController::class, 'show'])->name('members.details');
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+Route::get('/members/{user}', [UserController::class, 'show'])->name('members.details')
+    ->whereNumber('user');
+Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+Route::get('/groups/{group}/edit', [GroupController::class, 'edit'])->name('groups.edit')
+    ->whereNumber('group');
+
+// TODO: test
+Route::get('/avatar/{user}', function (\App\Models\User $user) {
+    if ($user) {
+        dd(\App\Http\Facades\Discord::GetMemberAvatar($user));
+    }
+
+    dd($user);
+})->whereNumber('user');

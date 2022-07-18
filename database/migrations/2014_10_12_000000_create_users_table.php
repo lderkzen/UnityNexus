@@ -12,7 +12,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id')->primary();
             $table->string('username', 255);
             $table->unsignedInteger('discriminator');
-            $table->string('avatar', 255);
+            $table->timestamp('joined_at');
+            $table->string('avatar', 255)->nullable();
             $table->softDeletes();
         });
     }

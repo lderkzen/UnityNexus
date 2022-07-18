@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Channel extends Model
+class QuestionType extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['type_id', 'name', 'parent_id'];
+    protected $primaryKey = 'type';
+    protected $fillable = ['type'];
 }
