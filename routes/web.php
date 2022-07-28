@@ -30,12 +30,3 @@ Route::get('/members/{user}', [UserController::class, 'show'])->name('members.de
 Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
 Route::get('/groups/{group}/edit', [GroupController::class, 'edit'])->name('groups.edit')
     ->whereNumber('group');
-
-// TODO: test
-Route::get('/avatar/{user}', function (\App\Models\User $user) {
-    if ($user) {
-        dd(\App\Http\Facades\Discord::GetMemberAvatar($user));
-    }
-
-    dd($user);
-})->whereNumber('user');

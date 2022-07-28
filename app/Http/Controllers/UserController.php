@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Facades\Discord;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Http\Requests\BanRequest;
@@ -26,7 +29,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function ban(BanRequest $request, $id) {
+    public function ban(BanRequest $request, $id)
+    {
 
     }
 }

@@ -62,6 +62,6 @@ class Discord extends Facade
 
     // TODO: test
     public static function GetMemberAvatar(User $user) {
-        return Http::get(sprintf('%s/%s/%s', self::$DISCORD_AVATAR_BASE_URL, $user->id, $user->avatar));
+        return file_get_contents(sprintf('%s/%s/%s', self::$DISCORD_AVATAR_BASE_URL, $user->id, $user->avatar));
     }
 }
