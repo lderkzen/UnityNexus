@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id')->primary();
             $table->string('name', 255);
             $table->unsignedTinyInteger('position');
         });

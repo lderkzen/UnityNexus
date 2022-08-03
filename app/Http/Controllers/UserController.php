@@ -28,9 +28,4 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
-
-    public function ban(BanRequest $request, $id)
-    {
-
-    }
 }

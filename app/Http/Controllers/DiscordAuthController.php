@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -26,7 +27,8 @@ class DiscordAuthController extends Controller
             ->scopes(['identify'])
             ->user();
 
-        if (!$user->user->verified)
+//        dd($user);
+        if (!$user->user['verified'])
             return Redirect::to('/login', 400)->withErrors('Unverified Discord account.');
 
         $user = User::find($user->id);
@@ -36,5 +38,13 @@ class DiscordAuthController extends Controller
             return Redirect::to('/');
         } else
             return Redirect::to('/login', 400)->withErrors('User is not part of the Hand of Unity discord server.');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        Session::flush();
+
+        return Redirect::to('/login');
     }
 }

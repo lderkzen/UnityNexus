@@ -8,7 +8,7 @@
             </ul>
             <ul class="flex flex-row items-center space-x-1">
                 <li>
-                    <NavDropdown class="py-3 px-2 pr-3" :label="$page.props.auth.user.username">
+                    <NavDropdown class="py-3 px-2 pr-3" :label="$page.props.auth.data.username">
                         <NavLink href="#" as="button" method="POST">Logout</NavLink>
                     </NavDropdown>
                 </li>

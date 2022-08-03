@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Inertia\Inertia;
+use App\Http\Requests\ApplicationRequest;
+use App\Models\Group;
 
 class ApplicationController extends Controller
 {
-    public function show($id) {
+    public function show(Group $group)
+    {
+        //
+    }
 
+    public function edit(Group $group)
+    {
+        //
+    }
+
+    public function update(ApplicationRequest $request, Group $group)
+    {
+        //
     }
 }

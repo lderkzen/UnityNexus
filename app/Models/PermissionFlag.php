@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class PermissionFlag extends Model
 {
     public $timestamps = false;
-    protected $primaryKey = 'flag';
     protected $fillable = ['flag'];
 }

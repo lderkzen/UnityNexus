@@ -22,17 +22,4 @@ class User extends Authenticatable
     public function roles() {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
-
-    public function getAvatar()
-    {
-        $path = __DIR__ . "/../public/avatars/{$this->id}.png";
-
-        if (!file_exists($path))
-            if (Storage::put("avatars/{$this->id}.png", Discord::GetMemberAvatar($this)) === false)
-                abort(500, 'Something went wrong...');
-
-        $avatar = Cache::remember("avatars.{$this->id}", 900, fn() => Storage::get("avatars/{$this->id}.png"));
-
-        return $avatar;
-    }
 }

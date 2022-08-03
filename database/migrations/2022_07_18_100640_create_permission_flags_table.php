@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('permission_flags', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedTinyInteger('id')->autoIncrement();
             $table->string('flag', 255);
         });
     }
