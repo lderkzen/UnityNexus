@@ -11,6 +11,11 @@ class Group extends Model
 
     protected $fillable = ['supergroup_id', 'channel_id', 'name', 'description', 'recruiting', 'position'];
 
+    public function getFormAttribute()
+    {
+        return $this->form = $this->form()->get()->except(['group_id'])->append(['type']);
+    }
+
     public function supergroup()
     {
         return $this->belongsTo(Supergroup::class, 'supergroup_id', 'id');

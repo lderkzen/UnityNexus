@@ -34,11 +34,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/theme/toggle', [HomeController::class, 'toggleTheme'])->name('toggle.theme');
     Route::get('/auditlog', [AuditLogController::class, 'index'])->name('audit_log.index');
 
-    // Permission Routes
-    Route::get('/permissions/edit', [PermissionsController::class, 'edit'])->name('permissions.edit');
-    Route::put('/permissions', [PermissionsController::class, 'update'])->name('permissions.update');
-    Route::put('/permissions/{role}/clear', [PermissionsController::class, 'clear'])->name('permissions.role.clear');
-
     // Member Routes
     Route::get('/members', [UserController::class, 'index'])->name('members.index');
     Route::get('/members/{user}', [UserController::class, 'show'])->name('members.show')

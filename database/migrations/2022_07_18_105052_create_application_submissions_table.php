@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('status_id')->constrained('statuses')
                 ->cascadeOnDelete();
             $table->boolean('public')->default(false);
+            $table->unsignedTinyInteger('age');
+            $table->string('location');
             $table->timestamp('refinement_since')->nullable();
             $table->unsignedTinyInteger('attempts')->default(1);
             $table->timestamps();
