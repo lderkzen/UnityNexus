@@ -14,12 +14,13 @@ class ChannelSeeder extends Seeder
         array_multisort(array_column($channels, 'parent_id'), SORT_ASC, $channels);
 
         foreach ($channels as $channel) {
-            Channel::create([
+            $data[] = [
                 'id' => $channel['id'],
                 'type_id' => $channel['type'],
-                'name' => $channel['name'],
-                'parent_id' => $channel['parent_id']
-            ]);
+                'parent_id' => $channel['parent_id'],
+                'name' => $channel['name']
+            ];
         }
+        Channel::insert($data);
     }
 }

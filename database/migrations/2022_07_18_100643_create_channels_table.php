@@ -10,8 +10,7 @@ return new class extends Migration
     {
         Schema::create('channels', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('type_id');
-            $table->foreign('type_id')->references('id')->on('channel_types')
+            $table->foreignId('type_id')->constrained('channel_types')
                 ->cascadeOnDelete();
             $table->string('name', 255);
         });

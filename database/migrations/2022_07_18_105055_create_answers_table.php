@@ -8,19 +8,18 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('application_submission_question', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('application_submission_id')->constrained('application_submissions')
                 ->cascadeOnDelete();
-            $table->foreignId('question_id')->constrained('questions')
-                ->cascadeOnDelete();
-            $table->primary(['application_submission_id', 'question_id']);
+            $table->unsignedBigInteger('question_id')->nullable();
+            $table->string('question', 255);
             $table->string('answer');
-            $table->string('feedback')->nullable();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('application_submission_question');
+        Schema::dropIfExists('answers');
     }
 };

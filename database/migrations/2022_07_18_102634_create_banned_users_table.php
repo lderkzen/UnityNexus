@@ -10,7 +10,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('banned_users', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
+            $table->unsignedBigInteger('user_id')->primary();
             $table->timestamp('banned_at')->default(Carbon::now());
         });
     }

@@ -9,17 +9,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('audit_log', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')
-                ->nullOnDelete();
-            $table->string('entry', 255);
+        Schema::create('answer_feedback', function (Blueprint $table) {
+            $table->foreignId('answer_id')->primary()->constrained('answers')
+                ->cascadeOnDelete();
+            $table->string('feedback');
             $table->timestamp('created_at')->default(Carbon::now());
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('audit_log');
+        Schema::dropIfExists('answer_feedback');
     }
 };

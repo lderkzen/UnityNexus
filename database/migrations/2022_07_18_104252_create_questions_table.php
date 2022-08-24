@@ -13,14 +13,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('group_id')->constrained('groups')
                 ->cascadeOnDelete();
-            $table->string('type', 255);
-            $table->foreign('type')->references('type')->on('question_types')
+            $table->foreignId('type_id')->constrained('question_types')
                 ->cascadeOnDelete();
             $table->unsignedTinyInteger('position');
             $table->string('question', 255);
             $table->string('hint', 255)->nullable();
             $table->json('validation_rules')->default(json_encode(['required']));
-            $table->timestamp('created_at')->default(Carbon::now());
         });
     }
 

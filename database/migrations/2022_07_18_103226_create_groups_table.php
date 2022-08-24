@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('description')->nullable();
             $table->boolean('recruiting')->default(true);
+            $table->unsignedTinyInteger('position');
             $table->timestamps();
             $table->softDeletes();
         });

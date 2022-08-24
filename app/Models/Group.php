@@ -9,10 +9,25 @@ class Group extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['supergroup_id', 'channel_id', 'name', 'description', 'recruiting', 'created_at', 'updated_at', 'deleted_at'];
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s',
-        'deleted_at' => 'datetime:Y-m-d H:i:s',
-    ];
+    protected $fillable = ['supergroup_id', 'channel_id', 'name', 'description', 'recruiting', 'position'];
+
+    public function supergroup()
+    {
+        return $this->belongsTo(Supergroup::class, 'supergroup_id', 'id');
+    }
+
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class, 'channel_id', 'id');
+    }
+
+    public function form()
+    {
+        return $this->hasMany(Question::class, 'group_id', 'id');
+    }
+
+    public function submissions()
+    {
+        return $this->hasMany(ApplicationSubmission::class, 'group_id', 'id');
+    }
 }

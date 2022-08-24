@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
     {
         // Deletes all avatar pictures daily at midnight.
         $schedule->call(function () {
-            $avatars = Storage::files('avatars');
+            $avatars = Storage::files('public/avatars');
             Storage::delete($avatars);
         })->dailyAt('03:00');
     }

@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Status extends Model
 {
     public $timestamps = false;
-    protected $primaryKey = 'status';
     protected $fillable = ['status'];
+
+    public function submissions()
+    {
+        return $this->hasMany(ApplicationSubmission::class, 'status_id', 'id');
+    }
 }

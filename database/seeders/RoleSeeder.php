@@ -10,15 +10,17 @@ class RoleSeeder extends Seeder
 {
     public function run()
     {
-        $res = Discord::GetGuild(config('app.discord_server_id'))->json();
+        $guild = Discord::GetGuild(config('app.discord_server_id'))->json();
 
-        foreach ($res['roles'] as $role) {
+        $data = [];
+        foreach ($guild['roles'] as $role) {
             if ($role['name'] !== '@everyone')
-                Role::create([
+                $data[] = [
                     'id' => $role['id'],
                     'name' => $role['name'],
                     'position' => $role['position']
-                ]);
+                ];
         }
+        Role::insert($data);
     }
 }

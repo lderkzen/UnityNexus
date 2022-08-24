@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('channel_types', function (Blueprint $table) {
-            $table->unsignedTinyInteger('id')->primary();
+            $table->unsignedBigInteger('id')->primary();
             $table->string('type', 255);
         });
     }

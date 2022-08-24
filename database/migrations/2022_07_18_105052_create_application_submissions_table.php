@@ -15,18 +15,14 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignId('applicant_id')->constrained('users')
                 ->cascadeOnDelete();
-            $table->foreignId('assigned_user_id')->nullable()->constrained('users')
+            $table->foreignId('assigned_id')->nullable()->constrained('users')
                 ->nullOnDelete();
-            $table->string('status', 255);
-            $table->foreign('status')->references('status')->on('statuses')
+            $table->foreignId('status_id')->constrained('statuses')
                 ->cascadeOnDelete();
-            $table->timestamp('refinement_since')->nullable();
             $table->boolean('public')->default(false);
+            $table->timestamp('refinement_since')->nullable();
             $table->unsignedTinyInteger('attempts')->default(1);
             $table->timestamps();
-            $table->timestamp('answered_at')->default(Carbon::now());
-            $table->timestamp('answers_updated_at')->nullable();
-            $table->softDeletes();
         });
     }
 

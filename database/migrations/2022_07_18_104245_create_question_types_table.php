@@ -9,7 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('question_types', function (Blueprint $table) {
-            $table->string('type', 255)->primary();
+            $table->id();
+            $table->string('type', 255);
         });
     }
 

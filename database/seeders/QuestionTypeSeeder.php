@@ -9,16 +9,10 @@ class QuestionTypeSeeder extends Seeder
 {
     public function run()
     {
-        QuestionType::create([
-            'type' => 'text'
-        ]);
-
-        QuestionType::create([
-            'type' => 'number'
-        ]);
-
-        QuestionType::create([
-            'type' => 'checkbox'
+        QuestionType::insert([
+            ['type' => 'text'],
+            ['type' => 'number'],
+            ['type' => 'checkbox']
         ]);
     }
 }

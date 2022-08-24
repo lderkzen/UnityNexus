@@ -7,5 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Channel extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['type_id', 'name', 'parent_id'];
+    protected $fillable = ['type_id', 'parent_id', 'name'];
+
+    public function type()
+    {
+        return $this->belongsTo(ChannelType::class, 'type_id', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Channel::class, 'parent_id', 'id');
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class, 'channel_id', 'id');
+    }
 }

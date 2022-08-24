@@ -10,8 +10,6 @@ class BlacklistedIPAddress extends Model
 
     public $timestamps = false;
     protected $primaryKey = 'ip_address';
-    protected $fillable = ['ip_address', 'blacklisted_at'];
-    protected $casts = [
-        'blacklisted_at' => 'datetime:Y-m-d H:i:s'
-    ];
+    protected $fillable = ['ip_address'];
+
 }

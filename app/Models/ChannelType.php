@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ChannelType extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['type'];
+    protected $fillable = ['id', 'type'];
+
+    public function channels()
+    {
+        return $this->hasMany(Channel::class, 'type_id', 'id');
+    }
 }
