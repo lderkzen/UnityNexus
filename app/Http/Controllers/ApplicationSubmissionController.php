@@ -15,14 +15,14 @@ class ApplicationSubmissionController extends Controller
 {
     public function index(Request $request)
     {
-        $submissions = ApplicationSubmission::all();
+        $submissions = ApplicationSubmission::all()->append(['group', 'applicant', 'status']);
 
         foreach ($request->input() as $key => $value) {
             $submissions = $submissions->map(fn($submission) => $submission[$key] == $value);
         }
 
         return Inertia::render('Submissions/Index', [
-            'submissions' => $submissions->append(['group', 'applicant', 'status'])
+            'submissions' => $submissions
         ]);
     }
 
@@ -33,15 +33,22 @@ class ApplicationSubmissionController extends Controller
             ? 'answers_with_feedback'
             : 'answers';
 
+        $submission->applicant = $submission->getAttribute('applicant');
+        $submission->assigned = $submission->getAttribute('assigned');
+        $submission->status = $submission->getAttribute('status');
+        $submission->answers = $submission->getAttribute($answers);
+
         return Inertia::render('Submissions/Details', [
-            'submission' => $submission->append(['applicant', 'assigned', 'status', $answers])
+            'submission' => $submission
         ]);
     }
 
     public function create(Group $group)
     {
+        $group->form = $group->getFormAttribute();
+
         return Inertia::render('Submissions/CreateEdit', [
-            'group' => $group->append(['form'])
+            'group' => $group
         ]);
     }
 
@@ -57,13 +64,14 @@ class ApplicationSubmissionController extends Controller
 
     public function edit(ApplicationSubmission $submission)
     {
+        $submission->status = $submission->getAttribute('status');
         $group = $submission->group()->firstOrFail();
 
         return Inertia::render('Submissions/CreateEdit', [
             'submission' => $submission->append(['status']),
             'group' => $group,
             'form' => $group->questions()->get()->map(fn(Question $question) => $question->answer = $submission->answers()->findOrFail($question->id)
-                ->except(['application_submission_id', 'question_id'])->append(['feedback']))
+                ->append(['feedback'])->except(['application_submission_id', 'question_id']))
         ]);
     }
 

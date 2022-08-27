@@ -18,7 +18,8 @@ class ChannelSeeder extends Seeder
                 'id' => $channel['id'],
                 'type_id' => $channel['type'],
                 'parent_id' => $channel['parent_id'],
-                'name' => $channel['name']
+                'name' => $channel['name'],
+                'position' => $channel['position']
             ];
         }
         Channel::insert($data);

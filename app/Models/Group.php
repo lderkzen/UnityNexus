@@ -2,25 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $fillable = ['supergroup_id', 'channel_id', 'name', 'description', 'recruiting', 'position'];
 
+    public function getSupergroupAttribute()
+    {
+        return $this->supergroup()->firstOrFail();
+    }
+
     public function getChannelAttribute()
     {
-        $channel = $this->channel()->first();
-        unset($this->channel_id);
-        return $channel;
+        return $this->channel()->firstOrFail();
     }
 
     public function getFormAttribute()
     {
-        return $this->form()->get()->except(['group_id'])->append(['type']);
+        return $this->form()->get()->append(['type'])->except(['group_id']);
     }
 
     public function supergroup()

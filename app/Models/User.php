@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable, SoftDeletes;
+    use Notifiable, SoftDeletes, HasFactory;
 
     public $timestamps = false;
     protected $fillable = ['id', 'username', 'discriminator', 'joined_at', 'avatar'];
     protected $appends = ['banned'];
-
-    public function getBannedAttribute()
-    {
-        return BannedUser::where('id', '=', $this->id)->exists();
-    }
 
     public function roles()
     {

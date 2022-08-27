@@ -24,7 +24,7 @@ class Discord extends Facade
     {
         return Http::withHeaders([
             'Authorization' => sprintf('Bot %s', config('app.discord_bot_token'))
-        ])->get(sprintf('%s/guilds/%s/members', self::$DISCORD_API_BASE_URL, $guild_id));
+        ])->get(sprintf('%s/guilds/%s/members?limit=1000', self::$DISCORD_API_BASE_URL, $guild_id));
     }
 
     public static function GetGuildChannels($guild_id)

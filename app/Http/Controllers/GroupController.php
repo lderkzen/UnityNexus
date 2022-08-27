@@ -36,9 +36,13 @@ class GroupController extends Controller
         else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 
-    public function edit(Group $group) {
+    public function edit(Group $group)
+    {
+        $group->channel = $group->getAttribute('channel');
+        $group->form = $group->getAttribute('form');
+
         return Inertia::render('Groups/CreateEdit', [
-            'group' => $group->append(['channel']),
+            'group' => $group,
             'channels' => Channel::where('type_id', '=', '0')->get()
         ]);
     }

@@ -9,35 +9,29 @@ class ApplicationSubmission extends Model
     protected $fillable = ['group_id', 'applicant_id', 'assigned_id', 'status_id', 'public', 'age', 'location', 'refinement_since', 'attempts'];
 
     public function getGroupAttribute() {
-        $group = $this->group()->firstOrFail();
-        unset ($this->group_id);
-        return $group;
+        return $this->group()->firstOrFail();
     }
 
     public function getApplicantAttribute() {
-        $applicant = $this->applicant()->firstOrFail();
-        unset ($this->applicant_id);
-        return $applicant;
+        return $this->applicant()->firstOrFail();
     }
 
     public function getAssignedAttribute() {
-        $assigned = $this->assigned()->firstOrFail();
-        unset ($this->assigned_id);
-        return $assigned;
+        return $this->assigned()->firstOrFail();
     }
 
     public function getStatusAttribute() {
-        $status = $this->status()->firstOrFail();
-        unset ($this->status_id);
-        return $status;
+        return $this->status()->firstOrFail();
     }
 
-    public function getAnswersAttribute() {
+    public function getAnswersAttribute()
+    {
         return $this->answers()->get()->except(['application_submission_id']);
     }
 
-    public function getAnswersWithFeedbackAttribute() {
-        return $this->answers()->get()->except(['application_submission_id'])->append(['feedback']);
+    public function getAnswersWithFeedbackAttribute()
+    {
+        return $this->answers()->get()->append(['feedback'])->except(['application_submission_id']);
     }
 
     public function group()

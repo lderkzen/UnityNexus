@@ -11,8 +11,10 @@ class QuestionTypeSeeder extends Seeder
     {
         QuestionType::insert([
             ['type' => 'text'],
+            ['type' => 'textarea'],
             ['type' => 'number'],
-            ['type' => 'checkbox']
+            ['type' => 'checkbox'],
+            ['type' => 'radio']
         ]);
     }
 }

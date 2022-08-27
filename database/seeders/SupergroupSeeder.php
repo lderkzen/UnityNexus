@@ -9,9 +9,8 @@ class SupergroupSeeder extends Seeder
 {
     public function run()
     {
-        Supergroup::create([
-            'name' => 'Ungrouped',
-            'position' => 0
+        Supergroup::insert([
+            ['name' => 'Ungrouped', 'position' => 0]
         ]);
     }
 }

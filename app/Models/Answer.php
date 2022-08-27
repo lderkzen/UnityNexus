@@ -9,8 +9,14 @@ class Answer extends Model
     public $timestamps = false;
     protected $fillable = ['application_submission_id', 'question_id', 'question', 'answer'];
 
-    public function getAnswersAttribute() {
+    public function getFeedbackAttribute()
+    {
         return $this->feedback()->get()->except(['answer_id']);
+    }
+
+    public function getQuestionAttribute()
+    {
+        return Question::find($this->question_id);
     }
 
     public function submission()

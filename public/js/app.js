@@ -850,6 +850,14 @@ var map = {
 		"./resources/js/Pages/Auth/Login.vue",
 		"resources_js_Pages_Auth_Login_vue"
 	],
+	"./Groups/CreateEdit": [
+		"./resources/js/Pages/Groups/CreateEdit.vue",
+		"resources_js_Pages_Groups_CreateEdit_vue"
+	],
+	"./Groups/CreateEdit.vue": [
+		"./resources/js/Pages/Groups/CreateEdit.vue",
+		"resources_js_Pages_Groups_CreateEdit_vue"
+	],
 	"./Groups/Index": [
 		"./resources/js/Pages/Groups/Index.vue",
 		"resources_js_Pages_Groups_Index_vue"
@@ -857,6 +865,30 @@ var map = {
 	"./Groups/Index.vue": [
 		"./resources/js/Pages/Groups/Index.vue",
 		"resources_js_Pages_Groups_Index_vue"
+	],
+	"./Submissions/CreateEdit": [
+		"./resources/js/Pages/Submissions/CreateEdit.vue",
+		"resources_js_Pages_Submissions_CreateEdit_vue"
+	],
+	"./Submissions/CreateEdit.vue": [
+		"./resources/js/Pages/Submissions/CreateEdit.vue",
+		"resources_js_Pages_Submissions_CreateEdit_vue"
+	],
+	"./Submissions/Details": [
+		"./resources/js/Pages/Submissions/Details.vue",
+		"resources_js_Pages_Submissions_Details_vue"
+	],
+	"./Submissions/Details.vue": [
+		"./resources/js/Pages/Submissions/Details.vue",
+		"resources_js_Pages_Submissions_Details_vue"
+	],
+	"./Submissions/Index": [
+		"./resources/js/Pages/Submissions/Index.vue",
+		"resources_js_Pages_Submissions_Index_vue"
+	],
+	"./Submissions/Index.vue": [
+		"./resources/js/Pages/Submissions/Index.vue",
+		"resources_js_Pages_Submissions_Index_vue"
 	],
 	"./Users/Details": [
 		"./resources/js/Pages/Users/Details.vue",

@@ -9,6 +9,16 @@ class Channel extends Model
     public $timestamps = false;
     protected $fillable = ['type_id', 'parent_id', 'name'];
 
+    public function getTypeAttribute()
+    {
+        return $this->type()->firstOrFail();
+    }
+
+    public function getParentAttribute()
+    {
+        return $this->parent()->first();
+    }
+
     public function type()
     {
         return $this->belongsTo(ChannelType::class, 'type_id', 'id');

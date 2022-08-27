@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Group Routes
     Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-    Route::get('/groups/{group}/create', [GroupController::class, 'create'])->name('groups.create')
+    Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create')
         ->whereNumber('group');
     Route::post('/groups/{group}', [GroupController::class, 'store'])->name('groups.store')
         ->whereNumber('group');

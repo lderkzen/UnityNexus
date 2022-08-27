@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('type_id')->constrained('channel_types')
                 ->cascadeOnDelete();
             $table->string('name', 255);
+            $table->unsignedTinyInteger('position');
         });
 
         Schema::table('channels', function (Blueprint $table) {

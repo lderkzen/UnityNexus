@@ -27,17 +27,16 @@ class DiscordAuthController extends Controller
             ->scopes(['identify'])
             ->user();
 
-//        dd($user);
         if (!$user->user['verified'])
-            return Redirect::to('/login', 400)->withErrors('Unverified Discord account.');
+            return Redirect::route('auth.login')->withErrors('Unverified Discord account.');
 
-        $user = User::find($user->id);
+        $user = User::findOrFail($user->id);
 
         if ($user) {
             Auth::login($user);
-            return Redirect::to('/');
+            return Redirect::route('home');
         } else
-            return Redirect::to('/login', 400)->withErrors('User is not part of the Hand of Unity discord server.');
+            return Redirect::route('auth.login')->withErrors('User is not part of the Hand of Unity discord server.');
     }
 
     public function logout()
@@ -45,6 +44,6 @@ class DiscordAuthController extends Controller
         Auth::logout();
         Session::flush();
 
-        return Redirect::to('/login');
+        return Redirect::route('auth.login');
     }
 }
