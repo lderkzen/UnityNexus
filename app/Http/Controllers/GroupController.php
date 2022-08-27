@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GroupRequest;
+use App\Models\Channel;
 use App\Models\Group;
+use App\Models\Supergroup;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Throwable;
@@ -13,67 +15,66 @@ class GroupController extends Controller
     public function index()
     {
         return Inertia::render('Groups/Index', [
-            'groups' => Group::all()
+            'supergroups' => Supergroup::orderBy('position')->get()->append(['groups']),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Groups/Create');
+        return Inertia::render('Groups/CreateEdit', [
+            'channels' => Channel::where('type_id', '=', '0')->get()
+        ]);
     }
 
     public function store(GroupRequest $request)
     {
-        $group = Group::create([
-            'supergroup_id' => $request->supergroup_id ?? null,
-            'channel_id' => $request->channel_id ?? null,
-            'name' => $request->name,
-            'description' => $request->description ?? null,
-        ]);
+        $group = new Group();
+        $group->fill($request->input());
+        $state = $group->save();
 
-        return Redirect::to("/groups/{$group->id}");
-    }
-
-    public function show(Group $group)
-    {
-        return Inertia::render('Groups/Details', [
-            'group' => $group
-        ]);
+        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been created successfully!');
+        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 
     public function edit(Group $group) {
-        return Inertia::render('Groups/Edit', [
-            'group' => $group
+        return Inertia::render('Groups/CreateEdit', [
+            'group' => $group->append(['channel']),
+            'channels' => Channel::where('type_id', '=', '0')->get()
         ]);
     }
 
     public function update(GroupRequest $request, Group $group)
     {
-        $group->supergroup_id = $request->supergroup_id ?? null;
-        $group->channel_id = $request->channel_id ?? null;
-        $group->name = $request->name;
-        $group->description = $request->description ?? null;
-        $group->recruiting = $request->recruiting;
+        $group->fill($request->input());
+        $state = $group->save();
 
-        $group->save();
-
-        return Redirect::to("/groups/{$group->id}");
+        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been updated successfully.');
+        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 
     public function attach(GroupRequest $request, Group $group)
     {
-        //
+        $group->supergroup_id = $request['supergroup_id'];
+        $state = $group->save();
+
+        if ($state) return Redirect::back(200)->with('state', 'The group has been attached successfully.');
+        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 
-    public function detach(GroupRequest $request, Group $group)
+    public function detach(Group $group)
     {
-        //
+        $group->supergroup_id = 1;
+        $state = $group->save();
+
+        if ($state) return Redirect::back(200)->with('state', 'The group has been detached successfully.');
+        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 
     public function destroy(Group $group)
     {
-        $group->delete();
+        $state = $group->delete();
 
-        return Redirect::to('/groups');
+        if ($state) return Redirect::back(200)->with('state', 'The group has been deleted successfully.');
+        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 }

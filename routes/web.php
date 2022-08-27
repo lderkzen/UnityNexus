@@ -52,8 +52,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Group Routes
     Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-    Route::get('/groups/{group}', [GroupController::class, 'show'])->name('groups.show')
-        ->whereNumber('group');
     Route::get('/groups/{group}/create', [GroupController::class, 'create'])->name('groups.create')
         ->whereNumber('group');
     Route::post('/groups/{group}', [GroupController::class, 'store'])->name('groups.store')
@@ -67,13 +65,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/groups/{group}/detach', [GroupController::class, 'detach'])->name('groups.detach')
         ->whereNumber('group');
     Route::delete('/groups/{group}', [GroupController::class, 'destroy'])->name('groups.destroy');
-
-    // Supergroup Routes
-    Route::get('/supergroups', [SupergroupController::class, 'index'])->name('supergroups.index');
-    Route::put('/supergroups/{supergroup}', [SupergroupController::class, 'update'])->name('supergroups.update')
-        ->whereNumber('supergroup');
-    Route::delete('/supergroups/{supergroup}', [SupergroupController::class, 'destroy'])->name('supergroups.destroy')
-        ->whereNumber('supergroup');
 
     // Application Routes
     Route::get('/groups/{group}/application', [ApplicationController::class, 'show'])->name('groups.application.show')

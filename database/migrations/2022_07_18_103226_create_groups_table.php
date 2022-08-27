@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('supergroup_id')->nullable()->constrained('supergroups')
+            $table->foreignId('supergroup_id')->default(1)->constrained('supergroups')
                 ->nullOnDelete();
             $table->foreignId('channel_id')->nullable()->constrained('channels')
                 ->nullOnDelete();

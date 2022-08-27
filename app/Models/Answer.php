@@ -10,7 +10,7 @@ class Answer extends Model
     protected $fillable = ['application_submission_id', 'question_id', 'question', 'answer'];
 
     public function getAnswersAttribute() {
-        return $this->feedback = $this->feedback()->get()->except(['answer_id']);
+        return $this->feedback()->get()->except(['answer_id']);
     }
 
     public function submission()

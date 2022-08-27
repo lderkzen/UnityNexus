@@ -13,7 +13,6 @@ use Inertia\Inertia;
 
 class ApplicationSubmissionController extends Controller
 {
-
     public function index(Request $request)
     {
         $submissions = ApplicationSubmission::all();
