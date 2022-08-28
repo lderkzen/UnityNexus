@@ -2,6 +2,7 @@ import { createApp, h } from 'vue'
 import { createInertiaApp, Head, Link } from '@inertiajs/inertia-vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 import Layout from "./Shared/Layout"
+import ActionButton from "./Shared/Components/ActionButton";
 
 createInertiaApp({
     resolve: async name => {
@@ -17,6 +18,7 @@ createInertiaApp({
             .use(plugin)
             .component('Link', Link)
             .component('Head', Head)
+            .component('ActionButton', ActionButton)
             .mount(el)
     },
     title: title => `UnityNexus${title ? ' - ' + title : ''}`

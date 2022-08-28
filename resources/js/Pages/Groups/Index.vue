@@ -1,42 +1,200 @@
 <template>
-    <Head title="Categories" />
-    <Link href="/categories/create" as="button" class="pb-2">
-        <h3 class="text-2xl hover:underline">Create a new category... <b class="text-green-500">+</b>
-        </h3>
-    </Link>
-    <br />
-    <table class="min-w-full border-collapse">
-        <thead>
-            <tr class="text-left">
-                <th>Category</th>
-                <th>Members</th>
-                <th>Application</th>
-                <th>Open / Closed</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="category in categories" :key="category.id" class="border-y border-default-accent">
-                <td class="indent-3 font-semibold">{{ category.name }}</td>
-                <td>{{ category.member_count }}</td>
-                <td>
-                    <Link href="#" class="hover:underline hover:text-gray-400">Application</Link>
-                    <Link href="#" as="button" class="px-2 py-1 my-1 ml-3 bg-blue-500 rounded-md hover:bg-blue-600">Edit</Link>
-                </td>
-                <td>{{ category.status }}</td>
-                <td><Link href="#" as="button" class="px-2 py-1 my-1 bg-blue-500 rounded-md hover:bg-blue-600">Edit</Link></td>
-                <td><Link href="#" as="button" class="px-2 py-1 my-1 bg-red-500 rounded-md hover:bg-red-600">Delete</Link></td>
-            </tr>
-        </tbody>
-    </table>
+    <Head title="Groups" />
+    <div>
+        <SuperGroupCard v-for="supergroup of supergroups" :title="supergroup.name">
+            <Group v-for="group of supergroup.groups" :group="group" />
+        </SuperGroupCard>
+    </div>
+    <div class="mt-5 flex justify-end">
+        <Link href="/groups/create" as="div">
+            <ActionButton variant="add">Add supergroup</ActionButton>
+        </Link>
+    </div>
+
 </template>
 
 <script>
+
+import SuperGroupCard from "../../Shared/Group/SuperGroupCard";
+import Group from "../../Shared/Group/Group";
+
 export default {
-    name: 'CategoryIndex',
+    name: 'GroupIndex',
+    components: { SuperGroupCard, Group },
     props: {
         categories: Array,
     },
+
+    data() {
+        return {
+            supergroups: [
+                {
+                    id: 1,
+                    name: "Lost Ark",
+                    position: 2,
+                    groups: [
+                        {
+                            id: 100,
+                            supergroup_id: 1,
+                            channel_id: null,
+                            name: "Lost Ark - Group 1",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: true,
+                            position: 3,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        },
+                        {
+                            id: 102,
+                            supergroup_id: 1,
+                            channel_id: null,
+                            name: "Lost Ark - Group 3",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: false,
+                            position: 20,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        },
+                        {
+                            id: 101,
+                            supergroup_id: 1,
+                            channel_id: null,
+                            name: "Lost Ark - Group 2",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: true,
+                            position: 15,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "Ashes of Creation",
+                    position: 1,
+                    groups: [
+                        {
+                            id: 103,
+                            supergroup_id: 2,
+                            channel_id: null,
+                            name: "Home of Unity",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: true,
+                            position: 5,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        },
+                        {
+                            id: 105,
+                            supergroup_id: 2,
+                            channel_id: null,
+                            name: "Hand of Unity",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: false,
+                            position: 2,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "New World",
+                    position: 3,
+                    groups: [
+                        {
+                            id: 110,
+                            supergroup_id: 3,
+                            channel_id: null,
+                            name: "New World - Group 1",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: false,
+                            position: 3,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: "2022-08-05T12:12:12.000000Z",
+                            channel: {},
+                            form: []
+                        },
+                        {
+                            id: 111,
+                            supergroup_id: 3,
+                            channel_id: null,
+                            name: "New World- Group 3",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: true,
+                            position: 20,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        },
+                        {
+                            id: 112,
+                            supergroup_id: 3,
+                            channel_id: null,
+                            name: "New World - Group 2",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: true,
+                            position: 15,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        },
+                        {
+                            id: 113,
+                            supergroup_id: 3,
+                            channel_id: null,
+                            name: "New World- Group 3",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: true,
+                            position: 33,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        },
+                        {
+                            id: 114,
+                            supergroup_id: 3,
+                            channel_id: null,
+                            name: "New World - Group 4",
+                            description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                            recruiting: true,
+                            position: 23,
+                            created_at: "2022-08-02T12:12:12.000000Z",
+                            updated_at: "2022-08-02T12:12:12.000000Z",
+                            deleted_at: null,
+                            channel: {},
+                            form: []
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+
+    created() {
+        console.log({asd: this.$page.props})
+    }
 }
 </script>
