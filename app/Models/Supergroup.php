@@ -14,7 +14,7 @@ class Supergroup extends Model
 
     public function getGroupsAttribute()
     {
-        return $this->groups()->get()->except(['supergroup_id']);
+        return $this->groups()->orderBy('position')->get()->except(['supergroup_id']);
     }
 
     public function groups()

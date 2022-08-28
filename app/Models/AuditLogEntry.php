@@ -8,6 +8,9 @@ class AuditLogEntry extends Model
 {
     public $timestamps = false;
     protected $fillable = ['user_id', 'entry'];
+    protected $casts = [
+        'user_id' => 'string'
+    ];
 
     public function getUserAttribute()
     {

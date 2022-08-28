@@ -11,6 +11,12 @@ class Group extends Model
     use SoftDeletes, HasFactory;
 
     protected $fillable = ['supergroup_id', 'channel_id', 'name', 'description', 'recruiting', 'position'];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+        'deleted_at' => 'datetime:Y-m-d H:i:s',
+        'channel_id' => 'string'
+    ];
 
     public function getSupergroupAttribute()
     {
@@ -24,7 +30,7 @@ class Group extends Model
 
     public function getFormAttribute()
     {
-        return $this->form()->get()->append(['type'])->except(['group_id']);
+        return $this->form()->orderBy('position', 'asc')->get()->append(['type'])->except(['group_id']);
     }
 
     public function supergroup()

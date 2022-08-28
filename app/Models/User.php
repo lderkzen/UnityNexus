@@ -14,6 +14,14 @@ class User extends Authenticatable
     public $timestamps = false;
     protected $fillable = ['id', 'username', 'discriminator', 'joined_at', 'avatar'];
     protected $appends = ['banned'];
+    protected $casts = [
+        'id' => 'string'
+    ];
+
+    public function getBannedAttribute()
+    {
+        return BannedUser::where('id', '=', $this->id)->exists();
+    }
 
     public function roles()
     {

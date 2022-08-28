@@ -6,6 +6,7 @@
 export default {
     name: "CreateEdit",
     props: {
+        group: Object,
         channels: Array
     }
 }

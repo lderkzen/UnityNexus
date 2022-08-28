@@ -17,7 +17,7 @@ class SubmissionTest extends TestCase
     {
         parent::setUp();
 
-        self::$USER = User::factory()->create();
+        self::$USER = User::factory()->createOne();
     }
 
     public function test_can_show_index_page()
@@ -25,6 +25,9 @@ class SubmissionTest extends TestCase
         $response = $this->actingAs(self::$USER)
             ->get('/submissions');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertInertia(fn($page) => $page
+                ->component('Submissions/Index')
+                ->has('submissions'));
     }
 }

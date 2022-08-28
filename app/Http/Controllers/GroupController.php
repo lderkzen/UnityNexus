@@ -22,7 +22,7 @@ class GroupController extends Controller
     public function create()
     {
         return Inertia::render('Groups/CreateEdit', [
-            'channels' => Channel::where('type_id', '=', '0')->get()
+            'channels' => Channel::where('type_id', '=', '0')->orderBy('position', 'asc')->get()
         ]);
     }
 
@@ -43,7 +43,7 @@ class GroupController extends Controller
 
         return Inertia::render('Groups/CreateEdit', [
             'group' => $group,
-            'channels' => Channel::where('type_id', '=', '0')->get()
+            'channels' => Channel::where('type_id', '=', '0')->orderBy('position', 'asc')->get()
         ]);
     }
 
