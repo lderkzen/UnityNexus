@@ -4,7 +4,7 @@
 /public/js
 /public/css
 /public/images
-/public/mix-manifest.json
+public/mix-manifest.json
 /storage/*.key
 /vendor
 .env
@@ -17,8 +17,6 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-
-/public
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
