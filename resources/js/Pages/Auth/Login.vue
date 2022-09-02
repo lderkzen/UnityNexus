@@ -12,6 +12,6 @@
 
 <script>
 export default {
-    hasLayout: true
+    layout: null
 }
 </script>

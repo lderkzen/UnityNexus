@@ -8,7 +8,7 @@ createInertiaApp({
     resolve: async name => {
         const page = (await import(`./Pages/${name}`)).default
 
-        if (!page.layout)
+        if (page.layout !== null)
             page.layout = Layout
 
         return page
