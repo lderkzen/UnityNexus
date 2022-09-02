@@ -1,18 +1,10 @@
 <template>
     <Head title="Home" />
-    <div>
+    <div class="bg-default p-2 rounded-md">
         <h1 class="text-4xl">App</h1>
-        <Nav />
     </div>
 </template>
 
 <script>
 
-</script>
-
-<script>
-import Layout from "../Shared/Nav/Nav";
-export default {
-    components: { Layout }
-}
 </script>

@@ -25,3 +25,8 @@ body > section {
 .bg-navbar {
     background: #212325;
 }
+
+nav li img {
+    height: 35px;
+    width: auto;
+}

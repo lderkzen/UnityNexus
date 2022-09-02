@@ -11,7 +11,7 @@
         @inertiaHead
     </head>
     <body class="bg-fixed bg-cover bg-no-repeat bg-center text-white">
-        <section class="h-screen">
+        <section class="min-h-screen">
             <div id="app" class="min-h-full" data-page="{{ json_encode($page) }}"></div>
         </section>
     </body>

@@ -1,6 +1,6 @@
 <template>
     <Head title="Groups" />
-    <div>
+    <div class="grid gap-y-5 grid-cols-1">
         <SuperGroupCard v-for="supergroup of supergroups" :title="supergroup.name">
             <Group v-for="group of supergroup.groups" :group="group" />
         </SuperGroupCard>
