@@ -90,6 +90,34 @@ class GroupTest extends TestCase
                     ->etc()));
     }
 
+    public function test_can_store()
+    {
+        $type = ChannelType::factory()->createOne([
+            'id' => 0
+        ]);
+        $channel = Channel::factory()->createOne([
+            'type_id' => $type->id
+        ]);
+        $supergroup = Supergroup::factory()->createOne();
+
+        $response = $this->actingAs(self::$USER)
+            ->post('/groups', [
+                'supergroup_id' => $supergroup->id,
+                'channel_id' => $channel->id,
+                'name' => fake()->words(3, true),
+                'description' => fake()->sentences(4, true),
+                'recruiting' => false,
+                'position' => 10
+            ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/groups');
+
+        $this->assertDatabaseHas('groups', [
+            'supergroup_id' => $supergroup->id
+        ]);
+    }
+
     public function test_can_show_edit_page()
     {
         $channel_type = ChannelType::factory()->createOne([
@@ -103,11 +131,6 @@ class GroupTest extends TestCase
             'supergroup_id' => $supergroup->id,
             'channel_id' => $channels->slice(0, 1)->first()->id
         ]);
-        $question_type = QuestionType::factory()->createOne();
-        $questions = Question::factory(10)->create([
-            'group_id' => $group->id,
-            'type_id' => $question_type->id
-        ])->sortBy('position');
 
         $response = $this->actingAs(self::$USER)
             ->get('/groups/' . $group->id . '/edit');
@@ -118,16 +141,6 @@ class GroupTest extends TestCase
                 ->has('group', fn($page) => $page
                     ->has('channel', fn($page) => $page
                         ->where('id', strval($channels->slice(0, 1)->first()->id))
-                        ->etc())
-                    ->has('form', 10)
-                    ->has('form.1', fn($page) => $page
-                        ->where('position', $questions->slice(1, 1)->first()->position)
-                        ->etc())
-                    ->has('form.4', fn($page) => $page
-                        ->where('position', $questions->slice(4, 1)->first()->position)
-                        ->etc())
-                    ->has('form.7', fn($page) => $page
-                        ->where('position', $questions->slice(7, 1)->first()->position)
                         ->etc())
                     ->etc())
                 ->has('channels', 3)
@@ -141,5 +154,39 @@ class GroupTest extends TestCase
                 ->has('channels.2', fn($page) => $page
                     ->where('position', $channels->slice(2, 1)->first()->position)
                     ->etc()));
+    }
+
+    public function test_can_update()
+    {
+        $type = ChannelType::factory()->createOne([
+            'id' => 0
+        ]);
+        $channel = Channel::factory()->createOne([
+            'type_id' => $type->id
+        ]);
+        $supergroup = Supergroup::factory()->createOne();
+        $group = Group::factory()->createOne([
+            'supergroup_id' => $supergroup->id,
+            'channel_id' => $channel->id
+        ]);
+
+        $this->assertDatabaseHas('groups', [
+            'id' => $group->id,
+            'name' => $group->name
+        ]);
+
+        $newName = fake()->words(2, true);
+        $response = $this->actingAs(self::$USER)
+            ->put('/groups/' . $group->id, [
+                'name' => $newName
+            ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/groups');
+
+        $this->assertDatabaseHas('groups', [
+            'id' => $group->id,
+            'name' => $newName
+        ]);
     }
 }

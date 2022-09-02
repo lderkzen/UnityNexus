@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
     Route::get('/groups/create', [GroupController::class, 'create'])->name('groups.create')
         ->whereNumber('group');
-    Route::post('/groups/{group}', [GroupController::class, 'store'])->name('groups.store')
+    Route::post('/groups', [GroupController::class, 'store'])->name('groups.store')
         ->whereNumber('group');
     Route::get('/groups/{group}/edit', [GroupController::class, 'edit'])->name('groups.edit')
         ->whereNumber('group');
