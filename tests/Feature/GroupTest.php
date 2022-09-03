@@ -189,4 +189,102 @@ class GroupTest extends TestCase
             'name' => $newName
         ]);
     }
+
+    public function test_can_attach_to_supergroup()
+    {
+        $type = ChannelType::factory()->createOne([
+            'id' => 0
+        ]);
+        $channel = Channel::factory()->createOne([
+            'type_id' => $type->id
+        ]);
+        $supergroup = Supergroup::factory()->createOne();
+        $group = Group::factory()->createOne([
+            'supergroup_id' => $supergroup->id,
+            'channel_id' => $channel->id
+        ]);
+
+        $this->assertDatabaseHas('groups', [
+            'id' => $group->id,
+            'supergroup_id' => $supergroup->id
+        ]);
+
+        $newSupergroup = Supergroup::factory()->createOne();
+        $response = $this->actingAs(self::$USER)
+            ->put('/groups/' . $group->id . '/attach', [
+                'supergroup_id' => $newSupergroup->id
+            ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/groups');
+
+        $this->assertDatabaseHas('groups', [
+            'id' => $group->id,
+            'supergroup_id' => $newSupergroup->id
+        ]);
+    }
+
+    public function test_can_detach_from_supergroup()
+    {
+        $backupSupergroup = Supergroup::factory()->createOne([
+            'id' => 1,
+            'name' => 'Ungrouped'
+        ]);
+        $type = ChannelType::factory()->createOne([
+            'id' => 0
+        ]);
+        $channel = Channel::factory()->createOne([
+            'type_id' => $type->id
+        ]);
+        $supergroup = Supergroup::factory()->createOne();
+        $group = Group::factory()->createOne([
+            'supergroup_id' => $supergroup->id,
+            'channel_id' => $channel->id
+        ]);
+
+        $this->assertDatabaseHas('groups', [
+            'id' => $group->id,
+            'supergroup_id' => $supergroup->id
+        ]);
+
+        $response = $this->actingAs(self::$USER)
+            ->put('/groups/' . $group->id . '/detach');
+
+        $response->assertStatus(302)
+            ->assertRedirect('/groups');
+
+        $this->assertDatabaseHas('groups', [
+            'id' => $group->id,
+            'supergroup_id' => $backupSupergroup->id
+        ]);
+    }
+
+    public function test_can_delete()
+    {
+        $type = ChannelType::factory()->createOne([
+            'id' => 0
+        ]);
+        $channel = Channel::factory()->createOne([
+            'type_id' => $type->id
+        ]);
+        $supergroup = Supergroup::factory()->createOne();
+        $group = Group::factory()->createOne([
+            'supergroup_id' => $supergroup->id,
+            'channel_id' => $channel->id
+        ]);
+
+        $this->assertDatabaseHas('groups', [
+            'id' => $group->id
+        ]);
+
+        $response = $this->actingAs(self::$USER)
+            ->delete('/groups/' . $group->id);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/groups');
+
+        $this->assertSoftDeleted('groups', [
+            'id' => $group->id
+        ]);
+    }
 }

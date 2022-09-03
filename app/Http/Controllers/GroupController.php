@@ -61,7 +61,7 @@ class GroupController extends Controller
         $group->supergroup_id = $request['supergroup_id'];
         $state = $group->save();
 
-        if ($state) return Redirect::back(200)->with('state', 'The group has been attached successfully.');
+        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been attached successfully.');
         else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 
@@ -70,7 +70,7 @@ class GroupController extends Controller
         $group->supergroup_id = 1;
         $state = $group->save();
 
-        if ($state) return Redirect::back(200)->with('state', 'The group has been detached successfully.');
+        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been detached successfully.');
         else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 
@@ -78,7 +78,7 @@ class GroupController extends Controller
     {
         $state = $group->delete();
 
-        if ($state) return Redirect::back(200)->with('state', 'The group has been deleted successfully.');
+        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been deleted successfully.');
         else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
     }
 }

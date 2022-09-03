@@ -31,13 +31,13 @@ class FormTest extends TestCase
         $channel_type = ChannelType::factory()->createOne([
             'id' => 0
         ]);
-        $channels = Channel::factory(3)->create([
+        $channel = Channel::factory()->createOne([
             'type_id' => $channel_type->id
-        ])->sortBy('position');
+        ]);
         $supergroup = Supergroup::factory()->createOne();
         $group = Group::factory()->createOne([
             'supergroup_id' => $supergroup->id,
-            'channel_id' => $channels->slice(0, 1)->first()->id
+            'channel_id' => $channel->id
         ]);
         $question_type = QuestionType::factory()->createOne();
         $questions = Question::factory(10)->create([
@@ -53,7 +53,7 @@ class FormTest extends TestCase
                 ->component('Groups/CreateEdit')
                 ->has('group', fn($page) => $page
                     ->has('channel', fn($page) => $page
-                        ->where('id', strval($channels->slice(0, 1)->first()->id))
+                        ->where('id', strval($channel->id))
                         ->etc())
                     ->has('form', 10)
                     ->has('form.1', fn($page) => $page
