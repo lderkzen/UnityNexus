@@ -20,7 +20,7 @@ class User extends Authenticatable
 
     public function getBannedAttribute()
     {
-        return BannedUser::where('id', '=', $this->id)->exists();
+        return BannedUser::where('user_id', '=', $this->id)->exists();
     }
 
     public function roles()

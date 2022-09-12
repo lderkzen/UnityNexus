@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Feedback extends Model
 {
     public $timestamps = false;
+    protected $table = 'feedback';
     protected $primaryKey = 'answer_id';
     protected $fillable = ['answer_id', 'feedback'];
 

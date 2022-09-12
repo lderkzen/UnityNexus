@@ -2,25 +2,32 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ApplicationSubmission extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['group_id', 'applicant_id', 'assigned_id', 'status_id', 'public', 'age', 'location', 'refinement_since', 'attempts'];
 
-    public function getGroupAttribute() {
+    public function getGroupAttribute()
+    {
         return $this->group()->firstOrFail();
     }
 
-    public function getApplicantAttribute() {
+    public function getApplicantAttribute()
+    {
         return $this->applicant()->firstOrFail();
     }
 
-    public function getAssignedAttribute() {
-        return $this->assigned()->firstOrFail();
+    public function getAssignedAttribute()
+    {
+        return $this->assigned()->first();
     }
 
-    public function getStatusAttribute() {
+    public function getStatusAttribute()
+    {
         return $this->status()->firstOrFail();
     }
 

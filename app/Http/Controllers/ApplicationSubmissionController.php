@@ -6,7 +6,6 @@ use App\Http\Requests\ApplicationSubmissionRequest;
 use App\Models\ApplicationSubmission;
 use App\Models\Feedback;
 use App\Models\Group;
-use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -65,13 +64,11 @@ class ApplicationSubmissionController extends Controller
     public function edit(ApplicationSubmission $submission)
     {
         $submission->status = $submission->getAttribute('status');
-        $group = $submission->group()->firstOrFail();
 
         return Inertia::render('Submissions/CreateEdit', [
             'submission' => $submission->append(['status']),
-            'group' => $group,
-            'form' => $group->questions()->get()->map(fn(Question $question) => $question->answer = $submission->answers()->findOrFail($question->id)
-                ->append(['feedback'])->except(['application_submission_id', 'question_id']))
+            'group' => $submission->group()->firstOrFail(),
+            'form' => $submission->answers()->get()->append(['position', 'feedback']),
         ]);
     }
 

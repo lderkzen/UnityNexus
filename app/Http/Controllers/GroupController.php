@@ -8,7 +8,6 @@ use App\Models\Group;
 use App\Models\Supergroup;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use Throwable;
 
 class GroupController extends Controller
 {

@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    use HasFactory;
+
     public $timestamps = false;
     protected $fillable = ['application_submission_id', 'question_id', 'question', 'answer'];
 
@@ -14,9 +17,9 @@ class Answer extends Model
         return $this->feedback()->get()->except(['answer_id']);
     }
 
-    public function getQuestionAttribute()
+    public function getPositionAttribute()
     {
-        return Question::find($this->question_id);
+        return Question::find($this->question_id)->position;
     }
 
     public function submission()

@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
         ->whereNumber('submission');
     Route::get('/groups/{group}/apply', [ApplicationSubmissionController::class, 'create'])->name('groups.application.create')
         ->whereNumber('group');
-    Route::put('/groups/{group}/apply', [ApplicationSubmissionController::class, 'store'])->name('groups.application.apply')
+    Route::post('/groups/{group}/apply', [ApplicationSubmissionController::class, 'store'])->name('groups.application.apply')
         ->whereNumber('group');
     Route::get('/submissions/{submission}/edit', [ApplicationSubmissionController::class, 'edit'])->name('submissions.edit')
         ->whereNumber('submission');

@@ -9,8 +9,8 @@ class GroupFactory extends Factory
     public function definition()
     {
         return [
-            'name' => ucwords(fake()->words(3, true)),
-            'description' => fake()->paragraph(),
+            'name' => fake()->toUpper(fake()->words(3, true)),
+            'description' => fake()->sentences(2, true),
             'recruiting' => true,
             'position' => fake()->randomNumber(2, true)
         ];

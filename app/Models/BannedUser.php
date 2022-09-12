@@ -9,5 +9,5 @@ class BannedUser extends Model
     const CREATED_AT = 'banned_at';
 
     public $timestamps = false;
-    protected $fillable = ['id'];
+    protected $fillable = ['user_id'];
 }

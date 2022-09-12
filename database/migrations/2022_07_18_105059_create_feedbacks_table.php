@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('answer_feedback', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->id();
             $table->foreignId('answer_id')->constrained('answers')
                 ->cascadeOnDelete();
@@ -20,6 +20,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('answer_feedback');
+        Schema::dropIfExists('feedback');
     }
 };
