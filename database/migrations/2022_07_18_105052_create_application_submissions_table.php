@@ -17,7 +17,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->foreignId('assigned_id')->nullable()->constrained('users')
                 ->nullOnDelete();
-            $table->foreignId('status_id')->constrained('statuses')
+            $table->foreignId('status_id')->default(1)->constrained('statuses')
                 ->cascadeOnDelete();
             $table->boolean('public')->default(false);
             $table->unsignedTinyInteger('age');

@@ -87,6 +87,29 @@ class SubmissionTest extends TestCase
                     ->etc()));
     }
 
+    public function test_can_store()
+    {
+        $generated = $this->generateGroupWithForm();
+
+        $response = $this->actingAs(self::$USER)
+            ->post('/groups/' . $generated['group']->id . '/apply', [
+                'public' => fake()->boolean(),
+                'age' => fake()->numberBetween(18, 50),
+                'location' => fake()->country(),
+                'status_id' => $generated['status']->id,
+                'answers' => $generated['questions']->map(fn($question) => [
+                    'question_id' => $question->id,
+                    'answer' => fake()->sentence()
+                ])->all()
+            ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/submissions/' . ApplicationSubmission::all()->first()->id);
+
+        $this->assertDatabaseCount('application_submissions', 1);
+        $this->assertDatabaseCount('answers', 10);
+    }
+
     public function test_can_show_edit_application_page()
     {
         $generated = $this->generateSubmittedApplication();
@@ -117,25 +140,81 @@ class SubmissionTest extends TestCase
                 ->etc());
     }
 
-    public function test_can_store()
+    public function test_cannot_update_when_status_is_not_refinement()
     {
-        $generated = $this->generateGroupWithForm();
+        $generated = $this->generateSubmittedApplication();
+
+        $new_location = fake()->country();
+        $new_last_answer = fake()->sentence();
 
         $response = $this->actingAs(self::$USER)
-            ->post('/groups/' . $generated['group']->id . '/apply', [
-                'public' => fake()->boolean(),
-                'age' => fake()->numberBetween(18, 50),
-                'location' => fake()->country(),
-                'answers' => $generated['questions']->map(fn($question) => [
-                    'question_id' => $question->id,
-                    'answer' => fake()->sentence()
-                ])
+            ->put('/submissions/' . $generated['submission']->id, [
+                'location' => $new_location,
+                'answers' => [
+                    ['question_id' => Question::all()->last()->id, 'answer' => $new_last_answer]
+                ]
+            ]);
+
+        $response->assertStatus(500);
+    }
+
+    public function test_can_update_public_attribute_if_status_is_not_refinement()
+    {
+        $generated = $this->generateSubmittedApplication();
+
+        $new_public = !$generated['submission']->public;
+
+        $response = $this->actingAs(self::$USER)
+            ->put('/submissions/' . $generated['submission']->id, [
+                'public' => $new_public,
             ]);
 
         $response->assertStatus(302)
             ->assertRedirect('/submissions/' . ApplicationSubmission::all()->first()->id);
 
-        $this->assertDatabaseCount('application_submissions', 1);
+        $this->assertEquals($new_public, ApplicationSubmission::find($generated['submission']->id)->public);
+    }
+
+    public function test_can_update_if_status_is_refinement()
+    {
+        $generated = $this->generateSubmittedApplication();
+        $generated['status']->status = 'REFINEMENT';
+        $generated['status']->save();
+
+        $new_location = fake()->country();
+        $new_last_answer = fake()->sentence();
+
+        $response = $this->actingAs(self::$USER)
+            ->put('/submissions/' . $generated['submission']->id, [
+                'location' => $new_location,
+                'answers' => [
+                    ['question_id' => Question::all()->last()->id, 'answer' => $new_last_answer]
+                ]
+            ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/submissions/' . $generated['submission']->id);
+
+        $this->assertEquals($new_location, ApplicationSubmission::find($generated['submission']->id)->location);
+        $this->assertEquals($new_last_answer, Answer::all()->last()->answer);
+        $this->assertEquals(Status::where('status', '=', 'PENDING')->first()->id, ApplicationSubmission::find($generated['submission']->id)->status_id);
+    }
+
+    public function test_can_transfer() {
+        $generated = $this->generateSubmittedApplication();
+        $newGroup = Group::factory()->createOne([
+            'supergroup_id' => $generated['supergroup']->id
+        ]);
+
+        $response = $this->actingAs(self::$USER)
+            ->put('/submissions/' . $generated['submission']->id . '/transfer', [
+                'group_id' => $newGroup->id,
+            ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect();
+
+        $this->assertEquals($newGroup->id, ApplicationSubmission::find($generated['submission']->id)->group_id);
     }
 
     private function generateGroup()
@@ -169,10 +248,15 @@ class SubmissionTest extends TestCase
             'group_id' => $generated['group']->id,
             'type_id' => $question_type->id
         ])->sortBy('position');
+        $status = Status::factory()->createOne();
+        Status::factory()->createOne([
+            'status' => 'PENDING'
+        ]);
 
         return array_merge($generated, [
             'question_type' => $question_type,
-            'questions' => $questions
+            'questions' => $questions,
+            'status' => $status
         ]);
     }
 
@@ -180,11 +264,10 @@ class SubmissionTest extends TestCase
     {
         $generated = $this->generateGroupWithForm();
 
-        $status = Status::factory()->createOne();
         $submission = ApplicationSubmission::factory()->createOne([
             'group_id' => $generated['group']->id,
             'applicant_id' => self::$USER->id,
-            'status_id' => $status->id
+            'status_id' => $generated['status']->id
         ]);
         $answers = new Collection();
         foreach ($generated['questions'] as $question) {
@@ -196,7 +279,6 @@ class SubmissionTest extends TestCase
         }
 
         return array_merge($generated, [
-            'status' => $status,
             'submission' => $submission,
             'answers' => $answers
         ]);

@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApplicationSubmissionRequest;
+use App\Http\Requests\StoreApplicationSubmissionRequest;
+use App\Http\Requests\UpdateApplicationSubmissionRequest;
+use App\Models\Answer;
 use App\Models\ApplicationSubmission;
 use App\Models\Feedback;
 use App\Models\Group;
+use App\Models\Question;
+use App\Models\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -51,14 +57,25 @@ class ApplicationSubmissionController extends Controller
         ]);
     }
 
-    public function store(ApplicationSubmissionRequest $request)
+    public function store(StoreApplicationSubmissionRequest $request, Group $group)
     {
         $submission = new ApplicationSubmission();
-        $submission->fill($request->input());
-        $state = $submission->save();
+        $submission->group_id = $group->id;
+        $submission->applicant_id = $request->user()->id;
+        $submission->fill($request->except('answers'));
+        $submission->save();
 
-        if ($state) return Redirect::route('submissions.show', ['submissions' => $submission->id])->with('state', 'Your application has been submitted successfully!');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        foreach ($request['answers'] as $input) {
+            $answer = new Answer([
+                'application_submission_id' => $submission->id,
+                'question_id' => $input['question_id'],
+                'question' => Question::find($input['question_id'])->question,
+                'answer' => $input['answer']
+            ]);
+            $answer->save();
+        }
+
+        return Redirect::route('submissions.show', ['submission' => $submission->id])->with('state', 'Your application has been submitted successfully!');
     }
 
     public function edit(ApplicationSubmission $submission)
@@ -72,69 +89,83 @@ class ApplicationSubmissionController extends Controller
         ]);
     }
 
-    public function update(ApplicationSubmissionRequest $request, ApplicationSubmission $submission)
+    public function update(UpdateApplicationSubmissionRequest $request, ApplicationSubmission $submission)
     {
-        $submission->fill($request->input());
-        $state = $submission->save();
+        $status = Status::where('status', '=', 'REFINEMENT')->first();
 
-        if ($state) return Redirect::route('submissions.show', ['submissions' => $submission->id])->with('state', 'Your application has been updated successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        if ($status && $submission->status_id === $status->id) {
+            $submission->fill($request->only(['public', 'age', 'location']));
+            $submission->status_id = Status::where('status', '=', 'PENDING')->first()->id;
+            $submission->save();
+
+            if ($request->has('answers'))
+            {
+                $answers = $submission->answers()->get();
+                foreach ($answers as $old_answer) {
+                    foreach ($request['answers'] as $input) {
+                        if ($old_answer->question_id == $input['question_id'])
+                            $old_answer->answer = $input['answer'];
+                    }
+                    $old_answer->save();
+                }
+            }
+        } else if ($request->exists('public')) {
+            $submission->public = $request['public'];
+            $submission->save();
+        } else {
+            return Redirect::back(500)->withErrors('state', 'The submitted application cannot be edited at this time.');
+        }
+
+        return Redirect::route('submissions.show', ['submission' => $submission->id])->with('state', 'Your application has been updated successfully.');
     }
 
     public function transfer(Request $request, ApplicationSubmission $submission)
     {
         $submission->group_id = $request['group_id'];
-        $state = $submission->save();
+        $submission->save();
 
-        if ($state) return Redirect::back(200)->with('state', 'The application has been transferred successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::back()->with('state', 'The application has been transferred successfully.');
     }
 
     public function accept(ApplicationSubmission $submission)
     {
         $submission->status_id = 3;
-        $state = $submission->save();
+        $submission->save();
 
-        if ($state) return Redirect::back(200)->with('state', 'The application has been accepted successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::back()->with('state', 'The application has been accepted successfully.');
     }
 
     public function reject(ApplicationSubmission $submission)
     {
         $submission->status_id = 4;
-        $state = $submission->save();
+        $submission->save();
 
-        if ($state) return Redirect::back(200)->with('state', 'The application has been denied successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::back()->with('state', 'The application has been denied successfully.');
     }
 
     public function assign(Request $request, ApplicationSubmission $submission)
     {
         $submission->assigned_id = $request['assigned_id'];
-        $state = $submission->save();
+        $submission->save();
 
-        if ($state) return Redirect::back(200)->with('state', 'The application has been assigned successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::back()->with('state', 'The application has been assigned successfully.');
     }
 
     public function review(Request $request)
     {
-        $state = false;
         foreach ($request['feedback'] as $entry) {
             $comment = new Feedback();
             $comment->fill($entry);
-            $state = $comment->save();
+            $comment->save();
         }
 
-        if ($state) return Redirect::back(200)->with('state', 'The application has been reviewed successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::back()->with('state', 'The application has been reviewed successfully.');
     }
 
     public function destroy(ApplicationSubmission $submission)
     {
-        $state = $submission->delete();
+        $submission->delete();
 
-        if ($state) return Redirect::back(200)->with('state', 'The application has been deleted successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::back()->with('state', 'The application has been deleted successfully.');
     }
 }

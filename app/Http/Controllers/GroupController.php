@@ -29,10 +29,9 @@ class GroupController extends Controller
     {
         $group = new Group();
         $group->fill($request->input());
-        $state = $group->save();
+        $group->save();
 
-        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been created successfully!');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::route('groups.index')->with('state', 'The group has been created successfully!');
     }
 
     public function edit(Group $group)
@@ -49,35 +48,31 @@ class GroupController extends Controller
     public function update(GroupRequest $request, Group $group)
     {
         $group->fill($request->input());
-        $state = $group->save();
+        $group->save();
 
-        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been updated successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::route('groups.index')->with('state', 'The group has been updated successfully.');
     }
 
     public function attach(GroupRequest $request, Group $group)
     {
         $group->supergroup_id = $request['supergroup_id'];
-        $state = $group->save();
+        $group->save();
 
-        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been attached successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::route('groups.index')->with('state', 'The group has been attached successfully.');
     }
 
     public function detach(Group $group)
     {
         $group->supergroup_id = 1;
-        $state = $group->save();
+        $group->save();
 
-        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been detached successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::route('groups.index')->with('state', 'The group has been detached successfully.');
     }
 
     public function destroy(Group $group)
     {
-        $state = $group->delete();
+        $group->delete();
 
-        if ($state) return Redirect::route('groups.index')->with('state', 'The group has been deleted successfully.');
-        else return Redirect::back(500)->withErrors('state', 'Oops... Something went wrong, please notify a moderator.');
+        return Redirect::route('groups.index')->with('state', 'The group has been deleted successfully.');
     }
 }
